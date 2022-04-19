@@ -281,3 +281,5 @@ func (m *DocumentSearchResult) SearchDocument(keyword string, bookId int) (docs 
 
 	return
 }
+
+// TODO: 使用 ES 全文搜索
