@@ -4,6 +4,7 @@ import (
 	"encoding/gob"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/url"
 	"os"
@@ -28,6 +29,7 @@ import (
 	"github.com/lifei6671/gocaptcha"
 	"github.com/mindoc-org/mindoc/cache"
 	"github.com/mindoc-org/mindoc/conf"
+	"github.com/mindoc-org/mindoc/elasticsearch"
 	"github.com/mindoc-org/mindoc/models"
 	"github.com/mindoc-org/mindoc/utils/filetil"
 )
@@ -337,7 +339,10 @@ func ResolveCommand(args []string) {
 	_ = os.MkdirAll(uploads, 0666)
 
 	web.BConfig.WebConfig.StaticDir["/static"] = filepath.Join(conf.WorkingDirectory, "static")
-	web.BConfig.WebConfig.StaticDir["/uploads"] = uploads
+	// web.BConfig.WebConfig.StaticDir["/uploads"] = uploads
+	// local debugger
+	web.BConfig.WebConfig.StaticDir["/uploads"] = "/data/mindoc/uploads"
+
 	web.BConfig.WebConfig.ViewsPath = conf.WorkingDir("views")
 	web.BConfig.WebConfig.Session.SessionCookieSameSite = http.SameSiteDefaultMode
 
@@ -357,6 +362,7 @@ func ResolveCommand(args []string) {
 
 	ModifyPassword()
 
+	RegisterElasticsearch()
 }
 
 //注册缓存管道
@@ -527,6 +533,42 @@ func RegisterError() {
 			_, _ = fmt.Fprint(writer, data["ErrorMessage"])
 		}
 	})
+}
+
+func RegisterElasticsearch() {
+	logs.Info("正在初始化ES配置.")
+	enableElasticsearch := web.AppConfig.DefaultBool("elasticsearch", false)
+	if !enableElasticsearch {
+		logs.Info("不启用 ElasticSearch 功能")
+		return
+	}
+	logs.Info("启用 ElasticSearch 功能")
+	elasticsearchAddress, err := web.AppConfig.String("elasticsearch_address")
+	if err != nil {
+		log.Fatal("获取 ElasticSearch 服务地址错误", err)
+	}
+	elasticsearchUsername := web.AppConfig.DefaultString("elasticsearch_username", "elastic")
+	elasticsearchPassword := web.AppConfig.DefaultString("elasticsearch_password", "")
+	elasticsearchCAFile := web.AppConfig.DefaultString("elasticsearch_cafile", "")
+	var elasticsearchCAPem []byte
+	if elasticsearchCAFile != "" {
+		if !filepath.IsAbs(elasticsearchCAFile) {
+			elasticsearchCAFile = filepath.Join(conf.WorkingDirectory, elasticsearchCAFile)
+		}
+		elasticsearchCAPem, err = ioutil.ReadFile(elasticsearchCAFile)
+		if err != nil {
+			log.Fatalf("Unable to read ElasticSearch CA from %q: %s", elasticsearchCAFile, err)
+		}
+
+	}
+	config := elasticsearch.ClientConfig{
+		Address:  elasticsearchAddress,
+		Username: elasticsearchUsername,
+		Password: elasticsearchPassword,
+		CAPem:    elasticsearchCAPem,
+	}
+	logs.Info(config)
+
 }
 
 func init() {

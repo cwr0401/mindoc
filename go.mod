@@ -10,6 +10,7 @@ require (
 	github.com/beego/i18n v0.0.0-20161101132742-e9308947f407
 	github.com/boombuler/barcode v1.0.0
 	github.com/bradfitz/gomemcache v0.0.0-20190913173617-a41fca850d0b // indirect
+	github.com/elastic/go-elasticsearch/v7 v7.17.1
 	github.com/howeyc/fsnotify v0.9.0
 	github.com/kardianos/service v1.1.0
 	github.com/lib/pq v1.7.0 // indirect
