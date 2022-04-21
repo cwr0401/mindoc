@@ -567,7 +567,22 @@ func RegisterElasticsearch() {
 		Password: elasticsearchPassword,
 		CAPem:    elasticsearchCAPem,
 	}
-	logs.Info(config)
+
+	client, err := elasticsearch.NewClient(config)
+	if err != nil {
+		log.Fatal("Create ElasticeSearch client error: ", err)
+	}
+
+	// 初始化全局客户端
+	elasticsearch.Init(client)
+
+	info, err := elasticsearch.Info()
+
+	if err != nil {
+		log.Fatal("Get ElasticeSearch info error: ", err)
+	}
+
+	logs.Info(info.Summary())
 
 }
 

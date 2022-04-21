@@ -2,10 +2,8 @@ package elasticsearch
 
 import (
 	"crypto/tls"
-	"net"
 	"net/http"
 	"strings"
-	"time"
 
 	es "github.com/elastic/go-elasticsearch/v7"
 )
@@ -27,9 +25,7 @@ func NewClient(config ClientConfig) (client *es.Client, err error) {
 	cfg := es.Config{
 		Addresses: config.SplitAddress(),
 		Transport: &http.Transport{
-			MaxIdleConnsPerHost:   10,
-			ResponseHeaderTimeout: time.Millisecond,
-			DialContext:           (&net.Dialer{Timeout: time.Nanosecond}).DialContext,
+			MaxIdleConnsPerHost: 10,
 			TLSClientConfig: &tls.Config{
 				MinVersion: tls.VersionTLS12,
 			},

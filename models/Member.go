@@ -33,6 +33,7 @@ type Member struct {
 	RealName string `orm:"size(255);column(real_name)" json:"real_name"`
 	Password string `orm:"size(1000);column(password)" json:"-"`
 	//认证方式: local 本地数据库 /ldap LDAP
+	// TODO: 接入 OAuth2 认证方式
 	AuthMethod  string `orm:"column(auth_method);default(local);size(50);" json:"auth_method"`
 	Description string `orm:"column(description);size(2000)" json:"description"`
 	Email       string `orm:"size(100);column(email);unique" json:"email"`
