@@ -950,7 +950,14 @@ func (c *DocumentController) Search() {
 
 	bookResult := c.isReadable(identify, token)
 
-	docs, err := models.NewDocumentSearchResult().SearchDocument(keyword, bookResult.BookId)
+	var docs []*models.DocumentSearchResult
+	var err error
+	if web.AppConfig.DefaultBool("elasticsearch", false) {
+		docs, err = models.NewDocumentSearchResult().ElasticSearchDocument(keyword, bookResult.BookId)
+	} else {
+		docs, err = models.NewDocumentSearchResult().SearchDocument(keyword, bookResult.BookId)
+	}
+
 	if err != nil {
 		logs.Error(err)
 		c.JsonResult(6002, i18n.Tr(c.Lang, "message.search_result_error"))

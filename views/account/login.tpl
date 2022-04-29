@@ -95,8 +95,10 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="{{cdnjs "/static/bootstrap/js/bootstrap.min.js"}}" type="text/javascript"></script>
 <script src="{{cdnjs "/static/layer/layer.js"}}" type="text/javascript"></script>
+<!--
 <script src="{{cdnjs "/static/js/dingtalk-jsapi.js"}}" type="text/javascript"></script>
 <script src="{{cdnjs "/static/js/dingtalk-ddlogin.js"}}" type="text/javascript"></script>
+-->
 
 <script type="text/javascript">
     if (dd.env.platform !== "notInDingTalk"){
@@ -136,7 +138,7 @@
     }
 
 </script>
-
+<!--
 <script type="text/javascript">
     var url = 'https://oapi.dingtalk.com/connect/oauth2/sns_authorize?appid={{.dingtalk_qr_key}}&response_type=code&scope=snsapi_login&state=1&redirect_uri={{ urlfor "AccountController.QRLogin" ":app" "dingtalk"}}'
     var obj = DDLogin({
@@ -246,5 +248,6 @@
         });
     });
 </script>
+-->
 </body>
 </html>

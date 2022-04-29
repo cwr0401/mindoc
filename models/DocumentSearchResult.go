@@ -37,6 +37,7 @@ func (m *DocumentSearchResult) FindToPager(keyword string, pageIndex, pageSize, 
 	keyword = "%" + strings.Replace(keyword, " ", "%", -1) + "%"
 
 	if memberId <= 0 {
+		// book.privately_owned 没有建立索引， 建议创建索引。
 		sql1 := `SELECT count(doc.document_id) as total_count FROM md_documents AS doc
   LEFT JOIN md_books as book ON doc.book_id = book.book_id
 WHERE book.privately_owned = 0 AND (doc.document_name LIKE ? OR doc.release LIKE ?) `
@@ -283,3 +284,16 @@ func (m *DocumentSearchResult) SearchDocument(keyword string, bookId int) (docs 
 }
 
 // TODO: 使用 ES 全文搜索
+func (m *DocumentSearchResult) ElasticSearchFindToPager(keyword string, pageIndex, pageSize, memberId int) (searchResult []*DocumentSearchResult, totalCount int, err error) {
+	return nil, 0, nil
+}
+
+func (m *DocumentSearchResult) ElasticSearchDocument(keyword string, bookId int) (docs []*DocumentSearchResult, err error) {
+	return nil, nil
+}
+
+// 使用 MySQL 的全文索引功能
+//
+func (m *DocumentSearchResult) FulltextFindToPager(keyword string, pageIndex, pageSize, memberId int) (searchResult []*DocumentSearchResult, totalCount int, err error) {
+	return nil, 0, nil
+}

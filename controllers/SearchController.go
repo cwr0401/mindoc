@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/beego/beego/v2/core/logs"
+	"github.com/beego/beego/v2/server/web"
 	"github.com/beego/i18n"
 	"github.com/mindoc-org/mindoc/conf"
 	"github.com/mindoc-org/mindoc/models"
@@ -39,7 +40,16 @@ func (c *SearchController) Index() {
 		if c.Member != nil {
 			memberId = c.Member.MemberId
 		}
-		searchResult, totalCount, err := models.NewDocumentSearchResult().FindToPager(sqltil.EscapeLike(keyword), pageIndex, conf.PageSize, memberId)
+
+		var searchResult []*models.DocumentSearchResult
+		var totalCount int
+		var err error
+
+		if web.AppConfig.DefaultBool("elasticsearch", false) {
+			searchResult, totalCount, err = models.NewDocumentSearchResult().ElasticSearchFindToPager(sqltil.EscapeLike(keyword), pageIndex, conf.PageSize, memberId)
+		} else {
+			searchResult, totalCount, err = models.NewDocumentSearchResult().FindToPager(sqltil.EscapeLike(keyword), pageIndex, conf.PageSize, memberId)
+		}
 
 		if err != nil {
 			logs.Error("搜索失败 ->", err)
