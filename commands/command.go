@@ -138,7 +138,7 @@ func RegisterLogger(log string) {
 		}
 	}
 
-	logPath := filepath.Join(log, "log.log")
+	logPath := filepath.Join(log, "mindoc.log")
 
 	if _, err := os.Stat(log); os.IsNotExist(err) {
 		_ = os.MkdirAll(log, 0755)
@@ -339,9 +339,7 @@ func ResolveCommand(args []string) {
 	_ = os.MkdirAll(uploads, 0666)
 
 	web.BConfig.WebConfig.StaticDir["/static"] = filepath.Join(conf.WorkingDirectory, "static")
-	// web.BConfig.WebConfig.StaticDir["/uploads"] = uploads
-	// local debugger
-	web.BConfig.WebConfig.StaticDir["/uploads"] = "/data/mindoc/uploads"
+	web.BConfig.WebConfig.StaticDir["/uploads"] = uploads
 
 	web.BConfig.WebConfig.ViewsPath = conf.WorkingDir("views")
 	web.BConfig.WebConfig.Session.SessionCookieSameSite = http.SameSiteDefaultMode
