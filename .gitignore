@@ -22,6 +22,7 @@ _testmain.go
 *.exe
 mindoc
 mindoc_linux_amd64
+__debug_bin
 database
 *.test
 *.prof

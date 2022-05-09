@@ -1,16 +1,15 @@
 package controllers
 
 import (
-	"github.com/beego/i18n"
+	"html/template"
 	"net/url"
 	"regexp"
 	"strings"
 	"time"
 
-	"html/template"
-
 	"github.com/beego/beego/v2/core/logs"
 	"github.com/beego/beego/v2/server/web"
+	"github.com/beego/i18n"
 	"github.com/lifei6671/gocaptcha"
 	"github.com/mindoc-org/mindoc/conf"
 	"github.com/mindoc-org/mindoc/mail"
@@ -76,7 +75,7 @@ func (c *AccountController) Prepare() {
 func (c *AccountController) Login() {
 	c.Prepare()
 
-	c.TplName = "account/login.tpl"
+	c.TplName = "v2/account/login.tpl"
 
 	if member, ok := c.GetSession(conf.LoginSessionName).(models.Member); ok && member.MemberId > 0 {
 		u := c.GetString("url")
@@ -572,7 +571,7 @@ func (c *AccountController) Logout() {
 func (c *AccountController) Captcha() {
 	c.Prepare()
 
-	captchaImage := gocaptcha.NewCaptchaImage(140, 40, gocaptcha.RandLightColor())
+	captchaImage := gocaptcha.NewCaptchaImage(145, 38, gocaptcha.RandLightColor())
 
 	captchaImage.DrawNoise(gocaptcha.CaptchaComplexLower)
 
