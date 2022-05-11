@@ -1,20 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <meta charset="utf-8">
-    <link rel="shortcut icon" href="{{cdnimg "/favicon.ico"}}">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="renderer" content="webkit" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="MinDoc" />
-    <title>{{i18n .Lang "common.login"}} - Powered by MinDoc</title>
-    <meta name="keywords" content="MinDoc,文档在线管理系统,WIKI,wiki,wiki在线,文档在线管理,接口文档在线管理,接口文档管理">
-    <meta name="description" content="MinDoc文档在线管理系统 {{.site_description}}">
+    
+    {{template "v2/widgets/html_head.tpl" .}}
 
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{cdncss "/static/adminlte/plugins/fontawesome-free/css/all.min.css"}}">
     <!-- icheck bootstrap -->
     <link rel="stylesheet" href="{{cdncss "/static/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css"}}">
     <!-- Theme style -->
@@ -69,7 +58,7 @@
                         <div class="icheck-primary">
                             <input type="checkbox" id="remember" name="is_remember">
                             <label for="remember">
-                                Remember Me
+                                {{i18n .Lang "common.keep_login"}}
                             </label>
                         </div>
                     </div>
@@ -82,11 +71,15 @@
             </form>
 
             <p class="mb-1">
-                <a href="forgot-password.html">I forgot my password</a>
+                <a href="forgot-password.html">{{i18n .Lang "common.forgot_password"}}</a>
             </p>
+            {{if .ENABLED_REGISTER}}
+            {{if ne .ENABLED_REGISTER "false"}}
             <p class="mb-0">
-                <a href="register.html" class="text-center">Register a new membership</a>
+                <a href="register.html" class="text-center">{{i18n .Lang "common.register"}}</a>
             </p>
+            {{end}}
+            {{end}}
         </div>
         <!-- /.card-body -->
     </div>

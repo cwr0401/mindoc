@@ -76,6 +76,7 @@ func (c *AccountController) Login() {
 	c.Prepare()
 
 	c.TplName = "v2/account/login.tpl"
+	c.Data["PAGE_TITLE"] = c.Tr("common.login")
 
 	if member, ok := c.GetSession(conf.LoginSessionName).(models.Member); ok && member.MemberId > 0 {
 		u := c.GetString("url")

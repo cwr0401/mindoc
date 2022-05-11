@@ -21,11 +21,12 @@ import (
 
 type BaseController struct {
 	web.Controller
+	i18n.Locale
 	Member                *models.Member
 	Option                map[string]string
 	EnableAnonymous       bool
 	EnableDocumentHistory bool
-	Lang                  string
+	// Lang                  string
 }
 
 type CookieRemember struct {

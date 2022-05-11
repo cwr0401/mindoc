@@ -24,7 +24,7 @@ func (c *HomeController) Prepare() {
 
 func (c *HomeController) Index() {
 	c.Prepare()
-	c.TplName = "home/index.tpl"
+	c.TplName = "v2/home/index.tpl"
 
 	pageIndex, _ := c.GetInt("page", 1)
 	pageSize := 18
@@ -45,4 +45,5 @@ func (c *HomeController) Index() {
 	}
 	c.Data["TotalPages"] = int(math.Ceil(float64(totalCount) / float64(pageSize)))
 	c.Data["Lists"] = books
+	c.Data["PAGE_TITLE"] = c.Tr("common.home")
 }
