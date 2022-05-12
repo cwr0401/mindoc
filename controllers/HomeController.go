@@ -46,4 +46,5 @@ func (c *HomeController) Index() {
 	c.Data["TotalPages"] = int(math.Ceil(float64(totalCount) / float64(pageSize)))
 	c.Data["Lists"] = books
 	c.Data["PAGE_TITLE"] = c.Tr("common.home")
+	c.Data["CONTENT_NAME"] = c.Tr("common.document_center")
 }

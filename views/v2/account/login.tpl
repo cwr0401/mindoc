@@ -85,8 +85,8 @@
     </div>
     <!-- /.card -->
 
-    <div id="alert-toast" role="alert" aria-live="assertive" aria-atomic="true" class="position-fixed toast ml-1" data-delay="2000">
-        <div class="bg-danger toast-header">
+    <div id="alert-toast" role="alert" aria-live="assertive" aria-atomic="true" class="position-fixed toast bg-danger ml-1" data-delay="2000">
+        <div class="toast-header">
           <i class="fas fa-bell mr-2 ml-2"></i>
           <strong class="mr-auto">Alert</strong>
           <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
