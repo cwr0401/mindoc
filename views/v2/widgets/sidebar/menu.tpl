@@ -232,6 +232,29 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-edit"></i>
+              <p>
+                {{i18n .Lang "common.person_center"}}
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{urlfor "SettingController.Index"}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>{{i18n .Lang "uc.base_info"}}</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{urlfor "SettingController.Password"}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>{{i18n .Lang "uc.change_pwd"}}</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
               <p>
                 Tables

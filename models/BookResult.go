@@ -74,6 +74,10 @@ type BookResult struct {
 	Lang             string
 }
 
+func (m *BookResult) IsPublic() bool {
+	return m.PrivatelyOwned == 0
+}
+
 func NewBookResult() *BookResult {
 	return &BookResult{}
 }

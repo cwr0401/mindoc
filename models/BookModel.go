@@ -85,6 +85,10 @@ type Book struct {
 	AutoSave int `orm:"column(auto_save);type(tinyint);default(0)" json:"auto_save"`
 }
 
+func (book *Book) IsPublic() bool {
+	return book.PrivatelyOwned == 0
+}
+
 func (book *Book) String() string {
 	ret, err := json.Marshal(*book)
 
@@ -550,7 +554,7 @@ WHERE book.privately_owned = 0 or rel.role_id >=0 or team.role_id >=0`
 as t group by book_id) as team on team.book_id=book.book_id
   LEFT JOIN md_relationship AS rel1 ON rel1.book_id = book.book_id AND rel1.role_id = 0
   LEFT JOIN md_members AS member ON rel1.member_id = member.member_id
-WHERE book.privately_owned = 0 or rel.role_id >=0 or team.role_id >=0 ORDER BY order_index desc,book.book_id DESC LIMIT ?,?`
+WHERE book.privately_owned = 0 or rel.role_id >=0 or team.role_id >=0 ORDER BY privately_owned, order_index desc,book.book_id DESC LIMIT ?,?`
 
 		_, err = o.Raw(sql2, memberId, memberId, offset, pageSize).QueryRows(&books)
 
@@ -566,7 +570,7 @@ WHERE book.privately_owned = 0 or rel.role_id >=0 or team.role_id >=0 ORDER BY o
 		sql := `SELECT book.*,rel.*,member.account AS create_name,member.real_name FROM md_books AS book
 			LEFT JOIN md_relationship AS rel ON rel.book_id = book.book_id AND rel.role_id = 0
 			LEFT JOIN md_members AS member ON rel.member_id = member.member_id
-			WHERE book.privately_owned = 0 ORDER BY order_index DESC ,book.book_id DESC LIMIT ?,?`
+			WHERE book.privately_owned = 0 ORDER BY order_index DESC privately_owned, book.book_id DESC LIMIT ?,?`
 
 		_, err = o.Raw(sql, offset, pageSize).QueryRows(&books)
 
