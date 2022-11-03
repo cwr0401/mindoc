@@ -32,7 +32,7 @@ var client *es.Client
 type ESInfo struct {
 	Name        string    `json:"name"`
 	ClusterName string    `json:"cluster_name"`
-	ClusterUUID string    `json:""cluster_uuid`
+	ClusterUUID string    `json:"cluster_uuid"`
 	Version     ESVersion `json:"version"`
 	Tagline     string    `json:"tagline"`
 }

@@ -216,4 +216,8 @@ func init() {
 	web.Router("/items", &controllers.ItemsetsController{}, "get:Index")
 	web.Router("/items/:key", &controllers.ItemsetsController{}, "get:List")
 
+	// watchkeeping arrangements 值班安排
+	// watchkeeper 值班人员
+	web.Router("/wk/dashboard", &controllers.WKController{}, "get:Index")
+	web.Router("/wk/api", &controllers.WKController{}, "get:GetWatchKeeperInfo")
 }

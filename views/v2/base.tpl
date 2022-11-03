@@ -84,7 +84,7 @@
 <!-- Bootstrap -->
 <script src="{{cdnjs "/static/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"}}"></script>
 <!-- AdminLTE -->
-<script src="{{cdnjs "/static/adminlte//js/adminlte.js"}}"></script>
+<script src="{{cdnjs "/static/adminlte/js/adminlte.js"}}"></script>
 
 <!-- OPTIONAL SCRIPTS -->
 {{block "optional_scripts_block" .}}

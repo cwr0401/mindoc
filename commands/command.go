@@ -112,11 +112,13 @@ func RegisterModel() {
 		new(models.TeamMember),
 		new(models.TeamRelationship),
 		new(models.Itemsets),
+		new(models.Watchkeeper),
+		new(models.CloudTenantAccount),
 	)
 	gob.Register(models.Blog{})
 	gob.Register(models.Document{})
 	gob.Register(models.Template{})
-	//migrate.RegisterMigration()
+	// migrate.RegisterMigration()
 }
 
 // RegisterLogger 注册日志
@@ -206,7 +208,7 @@ func RegisterCommand() {
 
 }
 
-//注册模板函数
+// 注册模板函数
 func RegisterFunction() {
 	err := web.AddFuncMap("config", models.GetOptionValue)
 
@@ -284,6 +286,11 @@ func RegisterFunction() {
 		logs.Error("注册函数 i18n 出错 ->", err)
 		os.Exit(-1)
 	}
+
+	err = web.AddFuncMap("mod", func(dividend, divisor int) int {
+		return dividend % divisor
+	})
+
 	langs := strings.Split("en-us|zh-cn", "|")
 	for _, lang := range langs {
 		if err := i18n.SetMessage(lang, "conf/lang/"+lang+".ini"); err != nil {
@@ -293,7 +300,7 @@ func RegisterFunction() {
 	}
 }
 
-//解析命令
+// 解析命令
 func ResolveCommand(args []string) {
 	flagSet := flag.NewFlagSet("MinDoc command: ", flag.ExitOnError)
 	flagSet.StringVar(&conf.ConfigurationFile, "config", "", "MinDoc configuration file.")
@@ -339,7 +346,9 @@ func ResolveCommand(args []string) {
 	_ = os.MkdirAll(uploads, 0666)
 
 	web.BConfig.WebConfig.StaticDir["/static"] = filepath.Join(conf.WorkingDirectory, "static")
-	web.BConfig.WebConfig.StaticDir["/uploads"] = uploads
+	// web.BConfig.WebConfig.StaticDir["/uploads"] = uploads
+	// local debugger
+	web.BConfig.WebConfig.StaticDir["/uploads"] = "/data/mindoc/uploads"
 
 	web.BConfig.WebConfig.ViewsPath = conf.WorkingDir("views")
 	web.BConfig.WebConfig.Session.SessionCookieSameSite = http.SameSiteDefaultMode
@@ -363,7 +372,7 @@ func ResolveCommand(args []string) {
 	RegisterElasticsearch()
 }
 
-//注册缓存管道
+// 注册缓存管道
 func RegisterCache() {
 	isOpenCache := web.AppConfig.DefaultBool("cache", false)
 	if !isOpenCache {
@@ -462,7 +471,7 @@ func RegisterCache() {
 	logs.Info("缓存初始化完成.")
 }
 
-//自动加载配置文件.修改了监听端口号和数据库配置无法自动生效.
+// 自动加载配置文件.修改了监听端口号和数据库配置无法自动生效.
 func RegisterAutoLoadConfig() {
 	if conf.AutoLoadDelay > 0 {
 
@@ -503,7 +512,7 @@ func RegisterAutoLoadConfig() {
 	}
 }
 
-//注册错误处理方法.
+// 注册错误处理方法.
 func RegisterError() {
 	web.ErrorHandler("404", func(writer http.ResponseWriter, request *http.Request) {
 		var buf bytes.Buffer

@@ -3,9 +3,9 @@
 {{define "optional_scripts_block"}}
 <script src="{{cdnjs "/static/adminlte/plugins/chart.js/Chart.min.js"}}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{cdnjs "/static/adminlte//js/demo.js"}}"></script>
+<script src="{{cdnjs "/static/adminlte/js/demo.js"}}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{cdnjs "/static/adminlte//js/pages/dashboard3.js"}}"></script>
+<script src="{{cdnjs "/static/adminlte/js/pages/dashboard3.js"}}"></script>
 {{end}}
 
 {{define "main_content_block"}}
@@ -22,9 +22,9 @@
           <div class="row">
             <h3 class="card-title overflow-hidden text-truncate">
               {{if $item.IsPublic }}
-              <button type="button" class="btn btn-primary btn-sm">{{i18n .Lang "common.public"}}</button>
+              <button type="button" class="btn btn-primary btn-sm">{{i18n .Lang "blog.public"}}</button>
               {{else}}
-              <button type="button" class="btn btn-success btn-sm">{{i18n .Lang "common.private"}}</button>
+              <button type="button" class="btn btn-success btn-sm">{{i18n .Lang "blog.private"}}</button>
               {{end}}
               {{$item.BookName}}
             </h3>
