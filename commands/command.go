@@ -114,6 +114,7 @@ func RegisterModel() {
 		new(models.Itemsets),
 		new(models.Watchkeeper),
 		new(models.CloudTenantAccount),
+		new(models.CloudTenantBasicAlarm),
 	)
 	gob.Register(models.Blog{})
 	gob.Register(models.Document{})
